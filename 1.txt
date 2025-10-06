@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install XFCE desktop and goodies
+sudo apt install -y xfce4 xfce4-goodies xfce4-whiskermenu-plugin lightdm lightdm-gtk-greeter
+
+# Set LightDM as default display manager
+echo "Setting LightDM as default display manager..."
+sudo dpkg-reconfigure lightdm
+
+# Enable GUI at boot
+sudo systemctl set-default graphical.target
+sudo systemctl enable lightdm
+
+# Configure XFCE panel at bottom
+xfce4-panel --quit
+xfconf-query -c xfce4-panel -p /panels/panel-1/position -s "p=6;x=0;y=0"
+xfce4-panel &
+
+# Add Whisker Menu
+xfce4-panel --add-item=whiskermenu
+
+# Remove unnecessary default panel items (optional)
+# User can remove manually via Panel Preferences
+
+# Install themes and icons
+sudo apt install -y arc-theme papirus-icon-theme
+
+# Set theme and icons
+xfconf-query -c xsettings -p /Net/ThemeName -s "Arc-Darker"
+xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus"
+
+# Download Raspberry Pi wallpaper
+mkdir -p ~/Pictures
+wget https://upload.wikimedia.org/wikipedia/commons/3/3e/Raspberry_Pi_Logo.png -O ~/Pictures/pi_wallpaper.png
+
+# Set wallpaper
+xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s ~/Pictures/pi_wallpaper.png
+
+echo "Setup complete! Rebooting..."
+sudo reboot
