@@ -1,43 +1,40 @@
-#!/bin/bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install python3-pip python3-dev build-essential cmake git \
+    libopenblas-dev liblapack-dev libjpeg-dev libpng-dev libtiff-dev \
+    libavcodec-dev libavformat-dev libswscale-dev libgtk2.0-dev \
+    pkg-config python3-tk -y
 
-# Update system
-sudo apt update && sudo apt upgrade -y
 
-# Install XFCE desktop and goodies
-sudo apt install -y xfce4 xfce4-goodies xfce4-whiskermenu-plugin lightdm lightdm-gtk-greeter
 
-# Set LightDM as default display manager
-echo "Setting LightDM as default display manager..."
-sudo dpkg-reconfigure lightdm
 
-# Enable GUI at boot
-sudo systemctl set-default graphical.target
-sudo systemctl enable lightdm
 
-# Configure XFCE panel at bottom
-xfce4-panel --quit
-xfconf-query -c xfce4-panel -p /panels/panel-1/position -s "p=6;x=0;y=0"
-xfce4-panel &
 
-# Add Whisker Menu
-xfce4-panel --add-item=whiskermenu
 
-# Remove unnecessary default panel items (optional)
-# User can remove manually via Panel Preferences
 
-# Install themes and icons
-sudo apt install -y arc-theme papirus-icon-theme
 
-# Set theme and icons
-xfconf-query -c xsettings -p /Net/ThemeName -s "Arc-Darker"
-xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus"
-
-# Download Raspberry Pi wallpaper
-mkdir -p ~/Pictures
-wget https://upload.wikimedia.org/wikipedia/commons/3/3e/Raspberry_Pi_Logo.png -O ~/Pictures/pi_wallpaper.png
-
-# Set wallpaper
-xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s ~/Pictures/pi_wallpaper.png
-
-echo "Setup complete! Rebooting..."
-sudo reboot
+pip3 install \
+    Pillow==11.1.0 \
+    blinker==1.4 \
+    click==8.1.8 \
+    opencv-python-headless==4.5.1.48 \
+    python-dateutil==2.9.0 \
+    dlib==19.24.0 \
+    flask==2.1.2 \
+    imageio==2.9.0 \
+    itsdangerous==2.1.2 \
+    jinja2==3.0.3 \
+    lazy-loader==0.2 \
+    MarkupSafe==2.1.1 \
+    networkx==2.6.3 \
+    numpy==1.21.6 \
+    packaging==21.3 \
+    pandas==1.3.5 \
+    pybind11==2.6.2 \
+    pytz==2021.3 \
+    scipy==1.7.3 \
+    six==1.16.0 \
+    scikit-image==0.18.3 \
+    tifffile==2021.11.2 \
+    tzdata==2021a \
+    werkzeug==2.1.2
